@@ -13,11 +13,14 @@ const LoginContainer = styled.div`
   height: 100vh;
   background-color: ${({ theme }: any) => theme.color.background.main};
   padding: 20px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
   @media (max-width: 600px) {
     margin-top: auto;
     height: 75%;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 20px;
   }
 `
 const ButtonContainer = styled.div`

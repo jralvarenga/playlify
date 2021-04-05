@@ -1,0 +1,30 @@
+{
+  "name": "Discoverify",
+  "short_name": "Discoverify",
+  "description": "Create playlist with just one song",
+  "lang": "en",
+  "start_url": "/",
+  "background_color": "#191414",
+  "theme_color": "#191414",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icons/icon-128.png",
+      "type": "image/png",
+      "sizes": "128x128",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}

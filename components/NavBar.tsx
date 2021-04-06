@@ -90,7 +90,7 @@ const NavBar = ({ profilePic, uri }: any) => {
 
   const goToProfile = () => {
     const uriNumber = uri.split(':')[2]
-    router.replace(`https://open.spotify.com/user/${uriNumber}`)
+    window.open(`https://open.spotify.com/user/${uriNumber}`)
   }
 
   return (

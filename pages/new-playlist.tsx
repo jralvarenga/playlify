@@ -1,5 +1,5 @@
 import router from 'next/router'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../services/AuthProvider'
 import { useNewPlaylist } from '../services/NewPlaylistProvider'
 import NavBar from '../components/NavBar'
@@ -131,7 +131,9 @@ const PlaylistNameChange = styled.input`
   font-weight: bold;
   background-color: inherit;
   @media (max-width: 600px) {
+    width: 90%;
     font-size: 24px;
+    margin-bottom: 10px;
   }
 `
 
@@ -151,6 +153,8 @@ const NewPlaylist = () => {
   const [changeSong, setChangeSong] = useState(0)
   const [changeName, setChangeName] = useState(false)
   const [newName, setNewName] = useState("")
+
+  const inputRef: any = useRef(null)
 
   const getUserProfile = async() => {
     if (token) {
@@ -197,10 +201,20 @@ const NewPlaylist = () => {
     }
   }
 
+  const changeNameStart = () => {
+    setChangeName(true)
+    setTimeout(() => {
+      inputRef.current.focus()
+    }, 100);
+  }
+
   const changePlaylistName = () => {
-    playlist.name = newName
-    setPlaylist(playlist)
-    setNewName("")
+    if (newName != "") {
+      playlist.name = newName
+      setPlaylist(playlist)
+      setNewName("")
+      setChangeName(false) 
+    }
     setChangeName(false)
   }
 
@@ -221,14 +235,15 @@ const NewPlaylist = () => {
           <PlaylistTitle>
             {!changeName ? (
               <PlaylistNameContainer>
-                <PlaylistName onDoubleClick={() => setChangeName(true)}>{playlist.name}</PlaylistName>
-                <IconContainer onClick={() => setChangeName(true)}><i className='bx bxs-edit-alt'></i></IconContainer>
+                <PlaylistName onDoubleClick={changeNameStart}>{playlist.name}</PlaylistName>
+                <IconContainer onClick={changeNameStart}><i className='bx bxs-edit-alt'></i></IconContainer>
               </PlaylistNameContainer>
             ) : (
               <PlaylistNameChange
                 type="text"
                 onBlur={changePlaylistName}
                 placeholder={playlist.name}
+                ref={inputRef}
                 value={newName}
                 onKeyDown={handleEnterKey}
                 onChange={(e: any) => setNewName(e.target.value)}

@@ -60,8 +60,28 @@ const SongArtists = styled.span`
     font-size: 12px;
   }
 `
+const DeleteButton = styled.i`
+  padding: 15px;
+  border-radius: 50%;
+  background-color: #3b3b3b;
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: 15px;
+  transition: 300ms;
+  :hover {
+    background-color: #353535;
+  }
+  :active {
+    background-color: #1b1b1b;
+  }
+  @media (max-width: 600px) {
+    padding: 13px;
+    font-size: 16px;
+  }
+`
 
-const DisplaySongs = ({ songs, type, playSongHandler }: any) => {
+const DisplaySongs = ({ songs, type, playSongHandler, deleteFromPlaylist }: any) => {
 
   if (songs == null) {
     return (<Container />)
@@ -69,7 +89,7 @@ const DisplaySongs = ({ songs, type, playSongHandler }: any) => {
 
   return (
     <Container>
-      {type == 'top' || type == 'search' ? (
+      {type == 'top' || type == 'search'|| type == 'playlist' ? (
         songs.map((song: any, i: number) => {
           const track = song  
           const name = track.name.split('(')[0]
@@ -88,7 +108,12 @@ const DisplaySongs = ({ songs, type, playSongHandler }: any) => {
                 ) : (
                   <span></span>
                 )}
-              </SongInfoContainer>            
+              </SongInfoContainer>
+              {type == 'playlist' ? (
+                <DeleteButton onClick={() => deleteFromPlaylist(track.uri)} className='bx bxs-trash-alt' />
+              ) : (
+                <div></div>
+              )} 
             </SongContainer>
           )
         })
@@ -111,7 +136,7 @@ const DisplaySongs = ({ songs, type, playSongHandler }: any) => {
                 ) : (
                   <span></span>
                 )}
-              </SongInfoContainer>            
+              </SongInfoContainer>          
             </SongContainer>
           )
         })

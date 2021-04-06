@@ -147,7 +147,7 @@ const NewPlaylist = () => {
   
   const basedName = getHashParams()
   const [profilePic, seProfilePic] = useState(null)
-  const { newPlaylist }: any = useNewPlaylist()
+  const { newPlaylist, setNewPlaylist }: any = useNewPlaylist()
   const [playlist, setPlaylist] = useState(playlistInfo(newPlaylist, basedName))
   const [selectedSong, setSelectedSong] = useState(null)
   const [changeSong, setChangeSong] = useState(0)
@@ -224,6 +224,15 @@ const NewPlaylist = () => {
     }
   }
 
+  const deleteFromPlaylist = (uri: any) => {
+    const library: string[] = newPlaylist.map((song: any) => song.uri)
+    const remove = library.indexOf(uri)
+    newPlaylist.splice(remove, 1)
+    const newInfo = playlistInfo(newPlaylist, basedName)
+    setNewPlaylist(newPlaylist)
+    setPlaylist(newInfo)
+  }
+
   return (
     <div>
       <NavBar
@@ -259,9 +268,10 @@ const NewPlaylist = () => {
             </PlaylistData>
           </PlaylistTitle>
           <DisplaySongs
-            type="top"
+            type="playlist"
             songs={newPlaylist}
             playSongHandler={playSongHandler}
+            deleteFromPlaylist={deleteFromPlaylist}
           />
         </SongsContainer>
         <SelectedSongContainer>

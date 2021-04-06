@@ -205,7 +205,7 @@ const NewPlaylist = () => {
     setChangeName(true)
     setTimeout(() => {
       inputRef.current.focus()
-    }, 100);
+    }, 100)
   }
 
   const changePlaylistName = () => {

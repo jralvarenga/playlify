@@ -19,6 +19,12 @@ html {
   box-sizing: border-box;
 }
 
+input:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+}
+
 body {
   margin: 0;
   background-color: #191414;

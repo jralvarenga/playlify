@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import DisplaySongs from '../components/DisplaySongs'
 import LoginScreen from '../components/LoginScreen'
-import { LoadingScreen } from '../components/LoadingScreens'
+import { LoadingScreen, SmallLoad } from '../components/LoadingScreens'
 import NavBar from '../components/NavBar'
 import SelectedSong from '../components/SelectedSong'
 import { useAuth } from '../services/AuthProvider'
@@ -41,7 +41,7 @@ const SongsListContainer = styled.div`
   align-items: center;
   flex-direction: row;
   @media (max-width: 600px) {
-    width: 80%;
+    width: 90%;
   }
 `
 const FullListButton = styled.div`
@@ -87,22 +87,65 @@ const LineListButton = styled.div`
     font-size: 12px;
   }
 `
+const IconButton = styled.i`
+  padding: 12px;
+  border-radius: 50%;
+  background-color: ${({ theme }: any) => theme.color.background.paper};
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: 300ms;
+  :hover {
+    background-color: ${({ theme }: any) => theme.color.background.light};
+  }
+`
+const FullIconButton = styled.i`
+  padding: 12px;
+  border-radius: 50%;
+  background-color: ${({ theme }: any) => theme.color.primary.main};
+  font-size: 18px;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: 300ms;
+  :hover {
+    background-color: ${({ theme }: any) => theme.color.primary.light};
+  }
+`
+const SearchInput = styled.input`
+  width: 70%;
+  padding: 7px;
+  margin-left: 3%;
+  margin-top: 15px;
+  border: 0px;
+  border-radius: 15px;
+  font-family: 'poppins';
+  background-color: ${({ theme }: any) => theme.color.background.paper};
+  color: ${({ theme }: any) => theme.text.color};
+  font-size: 22px;
+  font-weight: bold;
+  box-shadow: 2px 2px 2px 2px #141414;
+`
 
 const Home = () => {
   const { token, refreshAccessToken }: any = useAuth()
   const [loading, setLoading] = useState(true)
+  const [smallLoad, setSmallLoad] = useState(false)
   const [profile, setProfile]: any = useState({})
   const [profilePic, seProfilePic]: any = useState(null)
   const [viewLibrary, setViewLibrary] = useState('liked')
   const [allSongs, setAllSongs]: any = useState({})
-  const [songs, setSongs] = useState([])
+  const [songs, setSongs]: any = useState([])
   const [selectedSong, setSelectedSong] = useState(null)
   const [changeSong, setChangeSong] = useState(0)
+  const [searchSong, setSearchSong] = useState(false)
+  const [searchName, setSearchName] = useState("")
+
+  const searchInput: any = useRef(null)
   
   const getUserProfile = async() => {
     if (token) {
       try {
-        const response  = await fetch(`/api/current_user?access_token=${token}`)
+        const response = await fetch(`/api/current_user?access_token=${token}`)
         const data = await response.json()
         setProfile(data)
         const profilePic = data.images[0].url
@@ -143,33 +186,68 @@ const Home = () => {
       await getSongs()
     }
     loadPage()
+    if (searchSong) {
+      setSearchSong(false)
+    }
   }, [token])
 
   const changeSongs = (type: string) => {
     switch (type) {
       case 'liked':
+        setSearchSong(false)
         setSongs(allSongs.liked)
         setViewLibrary('liked')
       break;
       case 'recent':
+        setSearchSong(false)
         setViewLibrary('recent')
         setSongs(allSongs.recent)
       break;
       case 'top':
+        setSearchSong(false)
         setViewLibrary('top')
         setSongs(allSongs.top)
       break;
-    
+      case 'search':
+      break;
       default:
+        setSearchSong(false)
         setSongs(allSongs.liked)
         setViewLibrary('liked')
       break;
     }
   }
 
+  const searchSongInputHandler = () => {
+    setViewLibrary('search')
+    setSongs(null)
+    setSearchSong(true)
+    setTimeout(() => {
+      searchInput.current.focus()
+    }, 100)
+  }
+
   const playSongHandler = (song: any) => {
     setChangeSong(changeSong + 1)
     setSelectedSong(song)
+  }
+
+  const searchSongHandler = async() =>{
+    if (searchName != "") {
+      setSmallLoad(true)
+      setViewLibrary('search')
+      const response = await fetch(`/api/search_song?access_token=${token}&query=${searchName}`)
+      setSearchName("")
+      const data = await response.json()
+      setSongs(data.tracks.items)
+      setSmallLoad(false)
+    }
+  }
+
+  const handleEnterKey = (e: any) => {
+    if (e.key === 'Enter') {
+      searchSongHandler()
+    }
   }
 
   return (
@@ -201,7 +279,25 @@ const Home = () => {
                   ) : (
                     <LineListButton onClick={() => changeSongs('top')}>Top songs</LineListButton>  
                   )}
+                  {viewLibrary == "search" ? (
+                    <FullIconButton className='bx bx-search' />
+                  ) : (
+                    <IconButton className='bx bx-search' onClick={searchSongInputHandler} /> 
+                  )}
                 </SongsListContainer>
+                {searchSong ? (
+                  <SearchInput
+                    ref={searchInput}
+                    type="text"
+                    placeholder="Search a song"
+                    value={searchName}
+                    onBlur={searchSongHandler}
+                    onChange={(e: any) => setSearchName(e.target.value)}
+                    onKeyDown={handleEnterKey}
+                  />
+                ) : (
+                  <></>
+                )}
                 <DisplaySongs
                   type={viewLibrary}
                   songs={songs}
@@ -217,6 +313,11 @@ const Home = () => {
                 />
               </SelectedSongContainer>
             </Container>
+            {smallLoad ? (
+              <SmallLoad />
+            ) : (
+              <></>
+            )}
           </div>
         )
       ) : (

@@ -6,6 +6,7 @@ const Container = styled.div`
   height: 100%;
   padding: 15px;
   margin-top: 20px;
+  margin-bottom: 20px;
   border-radius: 10px;
   background-color: ${({ theme }: any) => theme.color.background.paper};
   overflow-y: scroll;
@@ -62,12 +63,15 @@ const SongArtists = styled.span`
 
 const DisplaySongs = ({ songs, type, playSongHandler }: any) => {
 
+  if (songs == null) {
+    return (<Container />)
+  }
+
   return (
     <Container>
-      {type == 'top' ? (
+      {type == 'top' || type == 'search' ? (
         songs.map((song: any, i: number) => {
-          const track = song
-  
+          const track = song  
           const name = track.name.split('(')[0]
           const image = track.album.images[1].url
           const artists = track.artists
@@ -91,7 +95,6 @@ const DisplaySongs = ({ songs, type, playSongHandler }: any) => {
       ) : (
         songs.map((song: any, i: number) => {
           const track = song.track
-  
           const name = track.name.split('(')[0]
           const image = track.album.images[1].url
           const artists = track.artists

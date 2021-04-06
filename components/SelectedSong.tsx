@@ -257,7 +257,8 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
         stop()
         data.tracks.push(song)
         setNewPlaylist(data.tracks)
-        router.push(`/new-playlist#name=${name}&artist=${artists[0].name}`) 
+        setSmallLoad(false)
+        router.push(`/new-playlist#name=${name}&artist=${artists[0].name}`)
       } catch (error) {
         refreshToken()
       }

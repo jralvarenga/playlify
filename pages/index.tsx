@@ -184,17 +184,17 @@ const Home = () => {
             <Container>
               <SongsContainer>
                 <SongsListContainer>
-                  {viewLibrary == 'liked' ? (
+                  {viewLibrary == "liked" ? (
                     <FullListButton>Liked songs</FullListButton>
                   ) : (
                     <LineListButton onClick={() => changeSongs('liked')}>Liked songs</LineListButton>  
                   )}
-                  {viewLibrary == 'recent' ? (
+                  {viewLibrary == "recent" ? (
                     <FullListButton>Recent songs</FullListButton>
                   ) : (
                     <LineListButton onClick={() => changeSongs('recent')}>Recent songs</LineListButton>  
                   )}
-                  {viewLibrary == 'top' ? (
+                  {viewLibrary == "top" ? (
                     <FullListButton>Top songs</FullListButton>
                   ) : (
                     <LineListButton onClick={() => changeSongs('top')}>Top songs</LineListButton>  

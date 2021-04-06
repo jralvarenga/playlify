@@ -239,6 +239,13 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
 
     useEffect(() => {
       stop()
+      const handleRouteChange = () => {
+        stop()
+      }
+      router.events.on('routeChangeStart', handleRouteChange)
+      return () => {
+        router.events.off('routeChangeStart', handleRouteChange)
+      }
     }, [changeSong])
 
     const createPlaylist = async() => {
@@ -248,6 +255,7 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
         const response = await fetch(`/api/new_playlist?access_token=${token}&artist=${params.artists}&track=${params.song}&genres=${params.genres}`)
         const data = await response.json()
         stop()
+        data.tracks.push(song)
         setNewPlaylist(data.tracks)
         router.push(`/new-playlist#name=${name}&artist=${artists[0].name}`) 
       } catch (error) {

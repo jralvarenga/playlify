@@ -23,6 +23,10 @@ const LogoBox = styled.div`
 const ImageLogo = styled.img`
   width: 50px;
   height: 50px;
+  @media (max-width: 600px) {
+    width: 45px;
+    height: 45px;
+  }
 `
 const Logotext = styled.span`
   color: #3BE9E3;
@@ -47,6 +51,11 @@ const UserProfilePic = styled.img`
   height: 50px;
   border-radius: 50%;
   margin-left: 15px;
+  cursor: pointer;
+  @media (max-width: 600px) {
+    width: 45px;
+    height: 45px;
+  }
 `
 const SignOutButton = styled.div`
   width: 120px;
@@ -71,12 +80,17 @@ const SignOutButton = styled.div`
   }
 `
 
-const NavBar = ({ profilePic }: any) => {
+const NavBar = ({ profilePic, uri }: any) => {
   const { logOut }: any = useAuth()
   const router = useRouter()
 
   const redirect = () => {
     router.replace(`${process.env.CLIENT_URI}`)
+  }
+
+  const goToProfile = () => {
+    const uriNumber = uri.split(':')[2]
+    router.replace(`https://open.spotify.com/user/${uriNumber}`)
   }
 
   return (
@@ -87,7 +101,7 @@ const NavBar = ({ profilePic }: any) => {
       </LogoBox>
       <UserProfileContainer>
         <SignOutButton onClick={logOut}>Log out</SignOutButton>
-        <UserProfilePic src={profilePic} alt="User Pic" />
+        <UserProfilePic onClick={goToProfile} src={profilePic} alt="User Pic" />
       </UserProfileContainer>
     </NavBarContainer>
   )

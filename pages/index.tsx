@@ -91,6 +91,7 @@ const LineListButton = styled.div`
 const Home = () => {
   const { token, refreshAccessToken }: any = useAuth()
   const [loading, setLoading] = useState(true)
+  const [profile, setProfile]: any = useState({})
   const [profilePic, seProfilePic]: any = useState(null)
   const [viewLibrary, setViewLibrary] = useState('liked')
   const [allSongs, setAllSongs]: any = useState({})
@@ -103,7 +104,7 @@ const Home = () => {
       try {
         const response  = await fetch(`/api/current_user?access_token=${token}`)
         const data = await response.json()
-        //setUserProfile(data)
+        setProfile(data)
         const profilePic = data.images[0].url
         seProfilePic(profilePic)
       } catch (error) {
@@ -180,6 +181,7 @@ const Home = () => {
           <div>
             <NavBar
               profilePic={profilePic}
+              uri={profile.uri}
             />
             <Container>
               <SongsContainer>

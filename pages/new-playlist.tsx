@@ -43,7 +43,8 @@ const PlaylistTitle = styled.div`
   margin-bottom: 15px;
 `
 const PlaylistName = styled.div`
-  width: 100%;
+  width: auto;
+  margin-right: 40px;
   margin-left: 3%;
   border: 0px;
   font-family: 'poppins';
@@ -51,8 +52,11 @@ const PlaylistName = styled.div`
   font-size: 30px;
   font-weight: bold;
   background-color: inherit;
+  cursor: pointer;
   @media (max-width: 600px) {
     font-size: 24px;
+    width: auto;
+    margin-right: 20px;
   }
 `
 const PlaylistData = styled.div`
@@ -99,6 +103,37 @@ const SavePlaylistButton = styled.div`
     font-size: 13px;
   }
 `
+const PlaylistNameContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+const IconContainer = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: ${({ theme }: any) => theme.color.background.paper};
+  display: flex; 
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  cursor: pointer;
+  :hover {
+    background-color: ${({ theme }: any) => theme.color.background.light};
+  }
+`
+const PlaylistNameChange = styled.input`
+  width: 100%;
+  margin-left: 3%;
+  border: 0px;
+  font-family: 'poppins';
+  color: ${({ theme }: any) => theme.text.color};
+  font-size: 30px;
+  font-weight: bold;
+  background-color: inherit;
+  @media (max-width: 600px) {
+    font-size: 24px;
+  }
+`
 
 const NewPlaylist = () => {
   const { token, refreshAccessToken }: any = useAuth()
@@ -111,9 +146,11 @@ const NewPlaylist = () => {
   const basedName = getHashParams()
   const [profilePic, seProfilePic] = useState(null)
   const { newPlaylist }: any = useNewPlaylist()
-  const playlist = playlistInfo(newPlaylist, basedName)
+  const [playlist, setPlaylist] = useState(playlistInfo(newPlaylist, basedName))
   const [selectedSong, setSelectedSong] = useState(null)
   const [changeSong, setChangeSong] = useState(0)
+  const [changeName, setChangeName] = useState(false)
+  const [newName, setNewName] = useState("")
 
   const getUserProfile = async() => {
     if (token) {
@@ -160,15 +197,43 @@ const NewPlaylist = () => {
     }
   }
 
+  const changePlaylistName = () => {
+    playlist.name = newName
+    setPlaylist(playlist)
+    setNewName("")
+    setChangeName(false)
+  }
+
+  const handleEnterKey = (e: any) => {
+    if (e.key === 'Enter') {
+      changePlaylistName()
+    }
+  }
+
   return (
     <div>
       <NavBar
         profilePic={profilePic}
+        uri={uri}
       />
       <Container>
         <SongsContainer>
           <PlaylistTitle>
-            <PlaylistName>{playlist.name}</PlaylistName>
+            {!changeName ? (
+              <PlaylistNameContainer>
+                <PlaylistName onDoubleClick={() => setChangeName(true)}>{playlist.name}</PlaylistName>
+                <IconContainer onClick={() => setChangeName(true)}><i className='bx bxs-edit-alt'></i></IconContainer>
+              </PlaylistNameContainer>
+            ) : (
+              <PlaylistNameChange
+                type="text"
+                onBlur={changePlaylistName}
+                placeholder={playlist.name}
+                value={newName}
+                onKeyDown={handleEnterKey}
+                onChange={(e: any) => setNewName(e.target.value)}
+              />
+            )}
             <PlaylistData>
               <span>{playlist.artist}</span>
               <Separator />

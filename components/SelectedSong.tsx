@@ -224,9 +224,9 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
   if (song) {
     const [playing, toggle, stop] = useAudio()
     const [smallLoad, setSmallLoad] = useState(false)
-    const { setNewPlaylist }: any = useNewPlaylist()
+    const { setNewPlaylist, setBasedSong }: any = useNewPlaylist()
     const name = song.name.split('(')[0]
-    const image = song.album.images[1].url    
+    const image = song.album.images[1].url
     const artists = artistHelper(song.artists)
 
     const setNewPlaying = () => {
@@ -258,6 +258,7 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
         data.tracks.push(song)
         setNewPlaylist(data.tracks)
         setSmallLoad(false)
+        setBasedSong(song)
         router.push(`/new-playlist#name=${name}&artist=${artists[0].name}`)
       } catch (error) {
         refreshToken()

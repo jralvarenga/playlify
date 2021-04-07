@@ -4,9 +4,10 @@ const NewPlaylistContext = createContext({})
 
 export const NewPlaylistProvider = ({ children }: any) => {
   const [newPlaylist, setNewPlaylist] = useState(null)
+  const [basedSong, setBasedSong] = useState(null)
 
   return (
-    <NewPlaylistContext.Provider value={{ newPlaylist, setNewPlaylist }}>
+    <NewPlaylistContext.Provider value={{ newPlaylist, setNewPlaylist, basedSong, setBasedSong }}>
       {children}
     </NewPlaylistContext.Provider>
   )

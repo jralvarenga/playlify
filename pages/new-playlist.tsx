@@ -2,12 +2,14 @@ import router from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../services/AuthProvider'
 import { useNewPlaylist } from '../services/NewPlaylistProvider'
+import { SmallLoad } from '../components/LoadingScreens'
 import NavBar from '../components/NavBar'
 import DisplaySongs from '../components/DisplaySongs'
 import SelectedSong from '../components/SelectedSong'
 import styled from 'styled-components'
 import { getHashParams } from '../hooks/hashParams'
 import { playlistInfo } from '../hooks/playlistInfo'
+import { artistHelper, songParams } from '../hooks/songHooks'
 
 const Container = styled.div`
   width: 100%;
@@ -38,9 +40,7 @@ const SelectedSongContainer = styled.div`
 `
 const PlaylistTitle = styled.div`
   width: 100%;
-  height: 60px;
   flex-direction: row;
-  margin-bottom: 15px;
 `
 const PlaylistName = styled.div`
   width: auto;
@@ -106,17 +106,16 @@ const SavePlaylistButton = styled.div`
 const PlaylistNameContainer = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 10px;
 `
-const IconContainer = styled.div`
-  width: 50px;
-  height: 50px;
+const IconContainer = styled.i`
+  padding: 12px;
   border-radius: 50%;
   background-color: ${({ theme }: any) => theme.color.background.paper};
-  display: flex; 
-  align-items: center;
-  justify-content: center;
   font-size: 20px;
   cursor: pointer;
+  transition: 300ms;
+  margin-left: 15px;
   :hover {
     background-color: ${({ theme }: any) => theme.color.background.light};
   }
@@ -140,6 +139,7 @@ const PlaylistNameChange = styled.input`
 const NewPlaylist = () => {
   const { token, refreshAccessToken }: any = useAuth()
   const [uri, setUri] = useState(null)
+  const [smallLoad, setSmallLoad] = useState(false)
 
   if (token == null) {
     return <div></div>
@@ -147,7 +147,7 @@ const NewPlaylist = () => {
   
   const basedName = getHashParams()
   const [profilePic, seProfilePic] = useState(null)
-  const { newPlaylist, setNewPlaylist }: any = useNewPlaylist()
+  const { newPlaylist, setNewPlaylist , basedSong }: any = useNewPlaylist()  
   const [playlist, setPlaylist] = useState(playlistInfo(newPlaylist, basedName))
   const [selectedSong, setSelectedSong] = useState(null)
   const [changeSong, setChangeSong] = useState(0)
@@ -201,6 +201,24 @@ const NewPlaylist = () => {
     }
   }
 
+  const refreshPlaylist = async() => {
+    setSmallLoad(true)
+    const name = basedSong.name.split('(')[0]
+    const artists = artistHelper(basedSong.artists)
+    try {
+      const params = await songParams(basedSong, token)
+      const response = await fetch(`/api/new_playlist?access_token=${token}&artist=${params.artists}&track=${params.song}&genres=${params.genres}`)
+      const data = await response.json()
+      stop()
+      data.tracks.push(basedSong)
+      setNewPlaylist(data.tracks)
+      setSmallLoad(false)
+      router.push(`/new-playlist#name=${name}&artist=${artists[0].name}`)
+    } catch (error) {
+      refreshAccessToken()
+    }
+  }
+
   const changeNameStart = () => {
     setChangeName(true)
     setTimeout(() => {
@@ -245,7 +263,8 @@ const NewPlaylist = () => {
             {!changeName ? (
               <PlaylistNameContainer>
                 <PlaylistName onDoubleClick={changeNameStart}>{playlist.name}</PlaylistName>
-                <IconContainer onClick={changeNameStart}><i className='bx bxs-edit-alt'></i></IconContainer>
+                <IconContainer className='bx bxs-edit-alt' onClick={changeNameStart} />
+                <IconContainer className='bx bx-refresh' onClick={refreshPlaylist} />
               </PlaylistNameContainer>
             ) : (
               <PlaylistNameChange
@@ -282,6 +301,11 @@ const NewPlaylist = () => {
           />
         </SelectedSongContainer>
       </Container>
+      {smallLoad ? (
+        <SmallLoad />
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

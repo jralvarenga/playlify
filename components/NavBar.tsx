@@ -52,9 +52,18 @@ const UserProfilePic = styled.img`
   border-radius: 50%;
   margin-left: 15px;
   cursor: pointer;
+  animation: enterpic 300ms ease-in;
   @media (max-width: 600px) {
     width: 45px;
     height: 45px;
+  }
+  @keyframes enterpic {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 `
 const SignOutButton = styled.div`

@@ -2,7 +2,7 @@ import router from 'next/router'
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { SmallLoad } from '../components/LoadingScreens'
-import { songParams } from '../hooks/songParams'
+import { artistHelper, songParams } from '../hooks/songHooks'
 import { useAudio } from '../hooks/useAudio'
 import { useNewPlaylist } from '../services/NewPlaylistProvider'
 
@@ -226,8 +226,8 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
     const [smallLoad, setSmallLoad] = useState(false)
     const { setNewPlaylist }: any = useNewPlaylist()
     const name = song.name.split('(')[0]
-    const image = song.album.images[1].url
-    const artists = song.artists
+    const image = song.album.images[1].url    
+    const artists = artistHelper(song.artists)
 
     const setNewPlaying = () => {
       toggle(song.preview_url)
@@ -290,7 +290,7 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
             <ArtistContainer>
               {artists ? (
                 artists.map((artist: any, i: number) => (
-                  <SongArtists key={i}>{artist.name}, </SongArtists>
+                  <SongArtists key={i}>{artist}</SongArtists>
                 ))
               ) : (
                 <span></span>

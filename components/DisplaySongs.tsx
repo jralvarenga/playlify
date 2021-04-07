@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import { artistHelper } from "../hooks/songHooks"
 
 const Container = styled.div`
   width: 90%;
@@ -24,6 +25,7 @@ const SongContainer = styled.div`
   border-radius: 10px;
   transition: 200ms;
   cursor: pointer;
+  animation: entersongs 300ms ease-in;
   :first-child {
     border-top: 0px;
   }
@@ -35,6 +37,14 @@ const SongContainer = styled.div`
   }
   :active {
     background-color: #1b1b1b;
+  }
+  @keyframes entersongs {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
 `
 const AlbumImageContainer = styled.img`
@@ -94,7 +104,8 @@ const DisplaySongs = ({ songs, type, playSongHandler, deleteFromPlaylist }: any)
           const track = song  
           const name = track.name.split('(')[0]
           const image = track.album.images[1].url
-          const artists = track.artists
+          const artists = artistHelper(track.artists)
+          
           return (
             <SongContainer onClick={() => playSongHandler(track)} key={i}>
               <AlbumImageContainer src={image} />
@@ -103,7 +114,7 @@ const DisplaySongs = ({ songs, type, playSongHandler, deleteFromPlaylist }: any)
                 <br/>
                 {artists ? (
                   artists.map((artist: any, i: number) => (
-                    <SongArtists key={i}>{artist.name}, </SongArtists>
+                    <SongArtists key={i}>{artist}</SongArtists>
                   ))
                 ) : (
                   <span></span>
@@ -122,7 +133,8 @@ const DisplaySongs = ({ songs, type, playSongHandler, deleteFromPlaylist }: any)
           const track = song.track
           const name = track.name.split('(')[0]
           const image = track.album.images[1].url
-          const artists = track.artists
+          const artists = artistHelper(track.artists)
+          
           return (
             <SongContainer onClick={() => playSongHandler(track)} key={i}>
               <AlbumImageContainer src={image} />
@@ -131,7 +143,7 @@ const DisplaySongs = ({ songs, type, playSongHandler, deleteFromPlaylist }: any)
                 <br/>
                 {artists ? (
                   artists.map((artist: any, i: number) => (
-                    <SongArtists key={i}>{artist.name}, </SongArtists>
+                    <SongArtists key={i}>{artist}</SongArtists>
                   ))
                 ) : (
                   <span></span>

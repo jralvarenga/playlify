@@ -32,3 +32,14 @@ export const songParams = async(song: any, token: any) => {
 
   return params
 }
+
+export const artistHelper = (arr: any[]) => {
+  const length = arr.length - 1
+  
+  return arr.map((artist, i) => {
+    if (i == length) {
+      return artist.name
+    }
+    return `${artist.name}, `
+  })
+}

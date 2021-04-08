@@ -147,7 +147,7 @@ const NewPlaylist = () => {
   
   const basedName = getHashParams()
   const [profilePic, seProfilePic] = useState(null)
-  const { newPlaylist, setNewPlaylist , basedSong }: any = useNewPlaylist()  
+  const { newPlaylist, setNewPlaylist , basedSong }: any = useNewPlaylist()
   const [playlist, setPlaylist] = useState(playlistInfo(newPlaylist, basedName))
   const [selectedSong, setSelectedSong] = useState(null)
   const [changeSong, setChangeSong] = useState(0)
@@ -170,7 +170,7 @@ const NewPlaylist = () => {
     }
   }
 
-  useEffect(() => {
+  useEffect(() => {    
     if (newPlaylist == null) {
       router.push('/')
     }

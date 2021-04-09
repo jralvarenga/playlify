@@ -137,23 +137,23 @@ const PlaylistNameChange = styled.input`
 `
 
 const NewPlaylist = () => {
+  // Token and user info
   const { token, refreshAccessToken }: any = useAuth()
+  const [profilePic, seProfilePic] = useState(null)
   const [uri, setUri] = useState(null)
   const [smallLoad, setSmallLoad] = useState(false)
-
+  // If not log in return to home
   if (token == null) {
-    return <div></div>
+    router.push('/')
   }
-  
+  // Get song name from hash params and playlist info
   const basedName = getHashParams()
-  const [profilePic, seProfilePic] = useState(null)
   const { newPlaylist, setNewPlaylist , basedSong }: any = useNewPlaylist()
   const [playlist, setPlaylist] = useState(playlistInfo(newPlaylist, basedName))
   const [selectedSong, setSelectedSong] = useState(null)
   const [changeSong, setChangeSong] = useState(0)
   const [changeName, setChangeName] = useState(false)
   const [newName, setNewName] = useState("")
-
   const inputRef: any = useRef(null)
 
   const getUserProfile = async() => {

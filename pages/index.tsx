@@ -127,19 +127,30 @@ const SearchInput = styled.input`
 `
 
 const Home = () => {
+  // Token and user info
   const { token, refreshAccessToken }: any = useAuth()
   const [loading, setLoading] = useState(true)
   const [smallLoad, setSmallLoad] = useState(false)
   const [profile, setProfile]: any = useState({})
   const [profilePic, seProfilePic]: any = useState(null)
+
+  // Current display playlist
   const [viewLibrary, setViewLibrary] = useState('liked')
-  const [allSongs, setAllSongs]: any = useState({})
+
+  // All playlist from user
+  const [allPlaylists, setAllPlaylists]: any = useState({})
+
+  // Songs from playlist to display 
   const [songs, setSongs]: any = useState([])
+
+  // Selected song from user
   const [selectedSong, setSelectedSong] = useState(null)
+
+  // Manage state from changed playlist
   const [changeSong, setChangeSong] = useState(0)
+
   const [searchSong, setSearchSong] = useState(false)
   const [searchName, setSearchName] = useState("")
-
   const searchInput: any = useRef(null)
   
   const getUserProfile = async() => {
@@ -166,7 +177,7 @@ const Home = () => {
         const responseTop = await fetch(`/api/top_tracks?access_token=${token}`)
         const topSongs = await responseTop.json()
 
-        setAllSongs({
+        setAllPlaylists({
           liked: likedSongs.items,
           recent: recentPlayed.items,
           top: topSongs.items
@@ -181,6 +192,7 @@ const Home = () => {
   }
 
   useEffect(() => {
+    // Retrieve all the user info and playlist
     const loadPage = async() => {
       await getUserProfile()
       await getSongs()
@@ -195,24 +207,24 @@ const Home = () => {
     switch (type) {
       case 'liked':
         setSearchSong(false)
-        setSongs(allSongs.liked)
+        setSongs(allPlaylists.liked)
         setViewLibrary('liked')
       break;
       case 'recent':
         setSearchSong(false)
         setViewLibrary('recent')
-        setSongs(allSongs.recent)
+        setSongs(allPlaylists.recent)
       break;
       case 'top':
         setSearchSong(false)
         setViewLibrary('top')
-        setSongs(allSongs.top)
+        setSongs(allPlaylists.top)
       break;
       case 'search':
       break;
       default:
         setSearchSong(false)
-        setSongs(allSongs.liked)
+        setSongs(allPlaylists.liked)
         setViewLibrary('liked')
       break;
     }

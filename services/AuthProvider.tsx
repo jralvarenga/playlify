@@ -5,9 +5,11 @@ import { useRouter } from 'next/router'
 const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }: any) => {
+  // Access token to use in the app
   const [token, setToken]: any = useState(null)
   const router = useRouter()
 
+  // Refresh the access token if it has expired
   const refreshAccessToken = async() => {
     try {
       const localRefreshToken = localStorage.getItem('refresh_token')
@@ -34,6 +36,7 @@ export const AuthProvider = ({ children }: any) => {
   }
 
   const getAccessToken = async() => {
+    // Retrieve access and refresh token from the callback
     const { accessToken, refreshToken, error }: any = getHashParams()
 
     if (error) {
@@ -41,11 +44,13 @@ export const AuthProvider = ({ children }: any) => {
       refreshAccessToken()
     }
 
+    // Save tokens in localStorage
     if (accessToken || refreshToken) {
       localStorage.setItem('access_token', accessToken)
       localStorage.setItem('refresh_token', refreshToken)
       setToken(accessToken)
     } else {
+      // Retrieve saved tokens
       const localToken = await getFromLocal()
       setToken(localToken)
     }

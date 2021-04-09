@@ -233,15 +233,13 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
       toggle(song.preview_url)
     }
 
-    const openInSpotify = (url: any) => {
-      window.open(url)
-    }
-
     useEffect(() => {
       stop()
       const handleRouteChange = () => {
         stop()
       }
+
+      // If return to home, pause the music
       router.events.on('routeChangeStart', handleRouteChange)
       return () => {
         router.events.off('routeChangeStart', handleRouteChange)
@@ -299,7 +297,7 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
             </ArtistContainer>
         </SongInfoContainer>
         <ButtonsContainer>
-          <SpotifyButton onClick={() => openInSpotify(song.external_urls.spotify)}>Open in Spotify</SpotifyButton>
+          <SpotifyButton onClick={() => window.open(song.external_urls.spotify)}>Open in Spotify</SpotifyButton>
           <CreatePlaylistButton onClick={createPlaylist}>Create playlist</CreatePlaylistButton>
         </ButtonsContainer>
       </Container>
@@ -315,7 +313,7 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
             )}
           </SmallPlayButton>
         )}
-        <SpotifyButton onClick={() => openInSpotify(song.external_urls.spotify)}>Open in Spotify</SpotifyButton>
+        <SpotifyButton onClick={() => window.open(song.external_urls.spotify)}>Open in Spotify</SpotifyButton>
         <CreatePlaylistButton onClick={createPlaylist}>Create playlist</CreatePlaylistButton>
       </SmallButtonsContainer>
       {smallLoad ? (

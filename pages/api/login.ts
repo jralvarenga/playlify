@@ -13,11 +13,15 @@ const generateRandomString = function (length: any) {
 
 export default function handler(req: any, res: any) {
   console.log(req)
+
+  // Generate a temporal random state for verification and to send it to the spotify API
   const state = generateRandomString(16);
   res.setHeader('Set-Cookie', serialize('auth_state', state));
 
+  // Scopes for login the user
   const scopes = 'user-read-recently-played user-top-read playlist-modify-public playlist-modify-private user-library-read user-read-private user-read-email'
 
+  // Redirect to the spotify login
   res.redirect(
     `https://accounts.spotify.com/authorize?${querystring.stringify({
       response_type: 'code',

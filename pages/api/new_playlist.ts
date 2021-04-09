@@ -1,5 +1,7 @@
 export default async function handler(req: any, res: any) {
   const access_token = req.query.access_token || null
+
+  // Querys to retrieve a new playlist
   const artist = req.query.artist || null
   const track = req.query.track || null
   const genres = req.query.genres || null

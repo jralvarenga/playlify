@@ -144,7 +144,7 @@ const NewPlaylist = () => {
   const [smallLoad, setSmallLoad] = useState(false)
   // If not log in return to home
   if (token == null) {
-    router.push('/')
+    return <div></div>
   }
   // Get song name from hash params and playlist info
   const basedName = getHashParams()

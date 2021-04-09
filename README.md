@@ -1,6 +1,6 @@
 # Discoverify
 
-Create new playlists and discover new music from juts one song
+Create new playlists and discover new music from just one song
 
 ## Instalation
 

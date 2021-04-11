@@ -21,7 +21,7 @@ const MyApp = ({ Component, pageProps }: any) => {
         <meta property="og:title" content="Playlify" />
         <meta property="og:description" content="Create new playlists and discover new music from just one song" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://Playlify.vercel.app" />
+        <meta property="og:url" content="https://playlify.vercel.app" />
         <meta property="og:site_name" content="Playlify" />
         <meta property="og:image" content="/icons/icon-512.png" />
         <meta property="og:image:width" content="512" />
@@ -30,7 +30,7 @@ const MyApp = ({ Component, pageProps }: any) => {
         <meta property="og:locale" content="en_US" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:url" content="https://Playlify.vercel.app" />
+        <meta name="twitter:url" content="https://playlify.vercel.app" />
         <meta name="twitter:site" content="@rigo_alvarenga1" />
         <meta name="twitter:creator" content="@rigo_alvarenga1" />
         <meta name="twitter:title" content="Playlify" />

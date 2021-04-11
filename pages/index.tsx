@@ -12,6 +12,7 @@ const Container = styled.div`
   display: flex;
   flex-flow: column;
   height: 100vh;
+  overflow-y: hidden;
 `
 const AppContainer = styled.div`
   width: 100%;
@@ -90,35 +91,15 @@ const MenuIcon = styled.i`
     margin: auto;
   }
 `
-const IconButton = styled.i`
-  padding: 12px;
-  border-radius: 50%;
-  background-color: ${({ theme }: any) => theme.color.background.paper};
-  font-size: 18px;
-  cursor: pointer;
-  margin-left: 10px;
-  transition: 300ms;
-  :hover {
-    background-color: ${({ theme }: any) => theme.color.background.light};
-  }
-`
-const FullIconButton = styled.i`
-  padding: 12px;
-  border-radius: 50%;
-  background-color: ${({ theme }: any) => theme.color.primary.main};
-  font-size: 18px;
-  cursor: pointer;
-  margin-left: 10px;
-  transition: 300ms;
-  :hover {
-    background-color: ${({ theme }: any) => theme.color.primary.light};
-  }
+const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
 `
 const SearchInput = styled.input`
-  width: 70%;
+  width: 350px;
   padding: 7px;
   margin-left: 3%;
-  margin-top: 15px;
   border: 0px;
   border-radius: 15px;
   font-family: 'poppins';
@@ -127,6 +108,23 @@ const SearchInput = styled.input`
   font-size: 22px;
   font-weight: bold;
   box-shadow: 2px 2px 2px 2px #141414;
+`
+const SearchIcon = styled.i`
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 28px;
+  background-color: ${({ theme }: any) => theme.color.background.light};
+  margin-left: 5px;
+  :hover {
+  background-color: #363636;
+  }
+  :active {
+  background-color: #272727;
+  }
+  @media (max-width: 600px) {
+    font-size: 25px;
+  }
 `
 
 const Home = () => {
@@ -224,9 +222,12 @@ const Home = () => {
         setSongs(allPlaylists.top)
       break;
       case 'search':
-        setSearchSong(true)
         setViewLibrary('search')
-        //setSongs(allPlaylists.top)
+        setSongs(null)
+        setSearchSong(true)
+        setTimeout(() => {
+          searchInput.current.focus()
+        }, 100)
       break;
       default:
         setSearchSong(false)
@@ -234,15 +235,6 @@ const Home = () => {
         setViewLibrary('liked')
       break;
     }
-  }
-
-  const searchSongInputHandler = () => {
-    setViewLibrary('search')
-    setSongs(null)
-    setSearchSong(true)
-    setTimeout(() => {
-      searchInput.current.focus()
-    }, 100)
   }
 
   const playSongHandler = (song: any) => {
@@ -303,6 +295,22 @@ const Home = () => {
             )}
           </MenuContainer>
           <SongsContainer>
+            {searchSong ? (
+              <SearchContainer>
+                <SearchInput
+                  ref={searchInput}
+                  type="text"
+                  placeholder="Search a song"
+                  value={searchName}
+                  onBlur={searchSongHandler}
+                  onChange={(e: any) => setSearchName(e.target.value)}
+                  onKeyDown={handleEnterKey}
+                />
+                <SearchIcon onClick={searchSongHandler} className='bx bx-search' />
+              </SearchContainer>
+            ) : (
+              <></>
+            )}
             <DisplaySongs
               type={viewLibrary}
               songs={songs}
@@ -316,6 +324,11 @@ const Home = () => {
           token={token}
           refreshToken={refreshAccessToken}
         />
+        {smallLoad ? (
+          <SmallLoad />
+        ) : (
+          <></>
+        )}
         </Container>
       )
     ) : (

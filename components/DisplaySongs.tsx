@@ -41,6 +41,9 @@ const SongContainer = styled.div`
     }
   }
 `
+const PlaylistName = styled.h1`
+  margin-left: 3%;
+`
 const AlbumImageContainer = styled.img`
   width: 60px;
   height: 60px;
@@ -91,11 +94,11 @@ const DisplaySongs = ({ songs, type, playSongHandler, deleteFromPlaylist }: any)
     return (<Container />)
   }
 
-  const title = type == 'liked' ? 'Liked Songs' : type == 'top' ? 'Top Songs' : type == 'recent' ? 'Recent Songs' : type == 'search' ? 'Search any song' : ''
+  const title = type == 'liked' ? 'Liked Songs' : type == 'top' ? 'Top Songs' : type == 'recent' ? 'Recent Songs' : ''
 
   return (
     <Container>
-      <h1>{title}</h1>
+      <PlaylistName>{title}</PlaylistName>
       {type == 'top' || type == 'search'|| type == 'playlist' ? (
         songs.map((song: any, i: number) => {
           const track = song  

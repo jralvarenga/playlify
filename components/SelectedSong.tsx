@@ -21,8 +21,8 @@ const Container = styled.div`
   flex-direction: row;
 `
 const AlbumImageContainer = styled.img`
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   margin-left: 15px;
   border-radius: 10px;
 `
@@ -44,7 +44,7 @@ const PlayIcon = styled.i`
   }
 `
 const SongInfoContainer = styled.div`
-  width: 200px;
+  width: auto;
   margin-left: 20px;
   @media (max-width: 600px) {
     margin-left: 10px;
@@ -122,8 +122,8 @@ const CreatePlaylistButton = styled.div`
   }
 `
 const NoSongContainer = styled.div`
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   margin-left: 15px;
   border-radius: 10px;
 `

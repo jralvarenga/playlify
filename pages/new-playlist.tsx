@@ -14,28 +14,77 @@ import { artistHelper, songParams } from '../hooks/songHooks'
 const Container = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-flow: column;
+  height: 100vh;
+  overflow-y: hidden;
+`
+const AppContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  height: 100%;
   @media (max-width: 600px) {
-    flex-direction: column-reverse;
+    margin-top: 25px;
   }
 `
 const SongsContainer = styled.div`
-  width: 55%;
-  margin-top: 30px;
-  display: flex;
+  width: 80%;
+  height: 100%;
   flex-direction: column;
-  height: 75vh;
   @media (max-width: 600px) {
-    width: 100%;
-    margin-bottom: 0px;
+    width: 85%;
   }
 `
-const SelectedSongContainer = styled.div`
-  width: 45%;
-  margin-top: 30px;
+const MenuContainer = styled.div`
+  width: 20%;
+  height: 100%;
+  display: flex;
+  border-right: 2px solid ${({ theme }: any) => theme.color.background.paper};
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  @media (max-width: 600px) {
+    width: 15%;
+  }
+`
+const MenuItem = styled.div`
+  width: 100%;
+  height: 50px;
+  font-size: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: ${({ theme }: any) => theme.color.background.paper};
+  color: ${({ theme }: any) => theme.text.paper};
+  cursor: pointer;
+  padding: 5px;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  transition: 300ms;
+  display: flex;
+  align-items: center;
+  :hover {
+    background-color: ${({ theme }: any) => theme.color.background.light};
+  }
+  :active {
+    background-color: ${({ theme }: any) => theme.color.background.paper};
+  }
   @media (max-width: 600px) {
     width: 100%;
+    font-size: 20px;
+  }
+`
+const MenuText = styled.span`
+  text-align: center;
+  font-size: 18px;
+  @media (max-width: 600px) {
+    display: none;
+  }
+`
+const MenuIcon = styled.i`
+  margin-left: 15px;
+  margin-right: 15px;
+  @media (max-width: 600px) {
+    margin: auto;
   }
 `
 const PlaylistTitle = styled.div`
@@ -78,6 +127,10 @@ const Separator = styled.span`
   margin-right: 10px;
   border-radius: 50%;
   background-color:#919090;
+  @media (max-width: 600px) {
+    margin-left: 5px;
+    margin-right: 5px;
+  }
 `
 const SavePlaylistButton = styled.div`
   width: 100px;
@@ -252,19 +305,22 @@ const NewPlaylist = () => {
   }
 
   return (
-    <div>
+    <Container>
       <NavBar
         profilePic={profilePic}
         uri={uri}
       />
-      <Container>
+      <AppContainer>
+      <MenuContainer>
+          <MenuItem onClick={refreshPlaylist}><MenuIcon className='bx bx-refresh' /><MenuText>Refresh playlist</MenuText></MenuItem>
+          <MenuItem onClick={() => router.push('/')}><MenuIcon className='bx bxs-home' /><MenuText>Go home</MenuText></MenuItem>
+        </MenuContainer>
         <SongsContainer>
           <PlaylistTitle>
             {!changeName ? (
               <PlaylistNameContainer>
                 <PlaylistName onDoubleClick={changeNameStart}>{playlist.name}</PlaylistName>
                 <IconContainer className='bx bxs-edit-alt' onClick={changeNameStart} />
-                <IconContainer className='bx bx-refresh' onClick={refreshPlaylist} />
               </PlaylistNameContainer>
             ) : (
               <PlaylistNameChange
@@ -293,20 +349,18 @@ const NewPlaylist = () => {
             deleteFromPlaylist={deleteFromPlaylist}
           />
         </SongsContainer>
-        <SelectedSongContainer>
-          <SelectedSong
-            song={selectedSong}
-            changeSong={changeSong}
-            token={token}
-          />
-        </SelectedSongContainer>
-      </Container>
+      </AppContainer>
+      <SelectedSong
+        song={selectedSong}
+        changeSong={changeSong}
+        token={token}
+      />
       {smallLoad ? (
         <SmallLoad />
       ) : (
         <></>
       )}
-    </div>
+    </Container>
   )
 }
 

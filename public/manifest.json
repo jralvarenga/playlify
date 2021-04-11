@@ -1,7 +1,7 @@
 {
-  "name": "Discoverify",
-  "short_name": "Discoverify",
-  "description": "Create playlist with just one song",
+  "name": "Playlify",
+  "short_name": "Playlify",
+  "description": "Create new playlists and discover new music from just one song",
   "lang": "en",
   "start_url": "/",
   "background_color": "#191414",

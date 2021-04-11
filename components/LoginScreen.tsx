@@ -92,8 +92,8 @@ const Logotext = styled.span`
 
 const LogoContainer = () => (
   <LogoBox>
-    <ImageContainer src="/img/logo.png" alt="Discoverify logo" />
-    <Logotext>Discoverify</Logotext>
+    <ImageContainer src="/img/logo.png" alt="Playlify logo" />
+    <Logotext>Playlify</Logotext>
   </LogoBox>
 );
 

@@ -105,8 +105,8 @@ const NavBar = ({ profilePic, uri }: any) => {
   return (
     <NavBarContainer>
       <LogoBox onClick={redirect}>
-        <ImageLogo src="/img/logo.png" alt="Discoverify logo" />
-        <Logotext>Discoverify</Logotext>
+        <ImageLogo src="/img/logo.png" alt="Playlify logo" />
+        <Logotext>Playlify</Logotext>
       </LogoBox>
       <UserProfileContainer>
         <SignOutButton onClick={logOut}>Log out</SignOutButton>

@@ -7,84 +7,45 @@ import { useAudio } from '../hooks/useAudio'
 import { useNewPlaylist } from '../services/NewPlaylistProvider'
 
 const Container = styled.div`
-  width: 80%;
+  width: 100%;
   background-color: ${({ theme }: any) => theme.color.background.paper};
   margin: auto;
-  margin-top: 70px;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  border-radius: 15px;
-  display: flex;
-  flex-direction: column;
-  animation: enterplayer 300ms ease-in;
-  @media (max-width: 600px) {
-    margin: auto;
-    padding: 15px;
-    flex-direction: row;
-    margin-top: 0px;
-    background-color: ${({ theme }: any) => theme.color.background.paper};
-  }
-  @keyframes enterplayer {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-`
-const AlbumImageContainer = styled.img`
-  width: 220px;
-  height: 220px;
-  margin: auto;
-  border-radius: 10px;
-  @media (max-width: 600px) {
-    width: 90px;
-    height: 90px;
-  }
-`
-const PlayButton = styled.div`
-  width: 30%;
-  margin: auto;
-  margin-top: 10px;
-  border-radius: 100px;
-  padding: 7px;
+  position: fixed;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  bottom: 0;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-direction: row;
+`
+const AlbumImageContainer = styled.img`
+  width: 70px;
+  height: 70px;
+  margin-left: 15px;
+  border-radius: 10px;
+`
+const PlayIcon = styled.i`
+  padding: 10px;
+  border-radius: 50%;
   cursor: pointer;
+  font-size: 28px;
   background-color: ${({ theme }: any) => theme.color.background.light};
-  transition: 100ms;
+  margin-right: 5px;
   :hover {
   background-color: #363636;
   }
   :active {
   background-color: #272727;
   }
-  @media (max-width: 600px) {
-    display: none;
-  }
-`
-const PlayIcon = styled.i`
-  font-size: 28px;
-  margin-right: 5px;
-  @media (max-width: 600px) {
-    margin: 0px;
-  }
 `
 const SongInfoContainer = styled.div`
-  margin-top: 15px;
-  width: 100%;
-  text-align: center;
-  @media (max-width: 600px) {
-    height: 100%;
-    margin-top: 0px;
-    text-align: left;
-    margin-left: 10px;
-  }
+  width: 200px;
+  margin-left: 20px;
 `
 const SongName = styled.span`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
   margin-top: 15px;
   text-align: center;
@@ -99,34 +60,28 @@ const ArtistContainer = styled.div`
   overflow-x: hidden;
 `
 const SongArtists = styled.span`
-  font-size: 16px;
+  font-size: 14px;
   color: #919090;
   font-weight: bold;
-  @media (max-width: 600px) {
-    font-size: 12px;
-    font-weight: normal;
-  }
-  
 `
 const ButtonsContainer = styled.div`
-  width: 100%;
+  width: 200px;
   display: flex;
+  margin-left: auto;
+  margin-right: 40px;
   align-items: center;
-  margin-top: 20px;
   justify-content: space-around;
   @media (max-width: 600px) {
-    display: none;
+    margin-right: 10px;
   }
 `
-const SpotifyButton = styled.div`
-  width: 30%;
+const SpotifyButton = styled.i`
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 28px;
   cursor: pointer;
   background-color: #1DB954;
-  padding: 7px;
-  font-size: 15px;
-  text-align: center;
-  border-radius: 100px;
-  font-weight: bold;
+  margin-right: 5px;
   transition: 200ms;
   :hover {
   background-color: #22db63;
@@ -134,88 +89,19 @@ const SpotifyButton = styled.div`
   :active {
   background-color: #19a34a;
   }
-  @media (max-width: 600px) {
-    width: 120px;
-    height: 30px;
-    padding: 7px;
-    font-size: 13px;
-    font-weight: normal;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
 `
 const CreatePlaylistButton = styled.div`
-  width: 30%;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 28px;
   cursor: pointer;
   background: linear-gradient(45deg ,#E93BCC, #3BE9E3);
-  padding: 7px;
-  font-size: 15px;
-  text-align: center;
-  border-radius: 100px;
-  font-weight: bold;
   transition: 300ms;
   :hover {
     background: linear-gradient(45deg ,#f14bd6, #5cf7f2);
   }
   :active {
     background: linear-gradient(45deg ,#d43fbc, #49ccc8);
-  }
-  @media (max-width: 600px) {
-    width: 120px;
-    height: 30px;
-    padding: 7px;
-    font-size: 13px;
-    font-weight: normal;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-`
-const SmallButtonsContainer = styled.div`
-  width: 85%;
-  margin: auto;
-  display: flex;
-  margin-top: 20px;
-  justify-content: space-between;
-  align-items: center;
-  @media (min-width: 601px) {
-    display: none;
-  }
-`
-const SmallPlayButton = styled.div`
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-  background-color: ${({ theme }: any) => theme.color.background.light};
-  transition: 100ms;
-  :hover {
-  background-color: #363636;
-  }
-  :active {
-  background-color: #272727;
-  }
-`
-const NoSongContainer = styled.div`
-  width: 80%;
-  height: 55vh;
-  background-color: ${({ theme }: any) => theme.color.background.main};
-  margin: auto;
-  margin-top: 70px;
-  padding-top: 30px;
-  padding-bottom: 30px;
-  border-radius: 15px;
-  display: flex;
-  @media (max-width: 600px) {
-    margin: auto;
-    padding: 15px;
-    height: 13vh;
-    margin-top: 0px;
-    background-color: ${({ theme }: any) => theme.color.background.paper};
   }
 `
 
@@ -267,23 +153,6 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
       <>
       <Container>
         <AlbumImageContainer src={image} />
-        {song.preview_url == null ? (
-          <div></div>
-        ) : (
-          <PlayButton onClick={setNewPlaying}>
-            {playing ? (
-              <>
-                <PlayIcon className='bx bx-pause'></PlayIcon>
-                <span>Pause</span>
-              </>
-            ) : (
-              <>
-                <PlayIcon className='bx bx-play'></PlayIcon>
-                <span>Play preview</span>
-              </>
-            )}
-          </PlayButton>
-        )}
         <SongInfoContainer>
           <SongName>{name}</SongName>
             <ArtistContainer>
@@ -297,25 +166,19 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
             </ArtistContainer>
         </SongInfoContainer>
         <ButtonsContainer>
-          <SpotifyButton onClick={() => window.open(song.external_urls.spotify)}>Open in Spotify</SpotifyButton>
-          <CreatePlaylistButton onClick={createPlaylist}>Create playlist</CreatePlaylistButton>
+          {song.preview_url == null ? (
+            <div></div>
+          ) : (
+            playing ? (
+              <PlayIcon onClick={setNewPlaying} className='bx bx-pause'></PlayIcon>
+            ) : (
+              <PlayIcon onClick={setNewPlaying} className='bx bx-play'></PlayIcon>
+            )
+          )}
+          <SpotifyButton className='bx bxl-spotify' onClick={() => window.open(song.external_urls.spotify)} />
+          <CreatePlaylistButton className='bx bxs-playlist' onClick={createPlaylist} />
         </ButtonsContainer>
       </Container>
-      <SmallButtonsContainer>
-        {song.preview_url == null ? (
-          <div></div>
-        ) : (
-          <SmallPlayButton onClick={setNewPlaying}>
-          {playing ? (
-              <PlayIcon className='bx bx-pause'></PlayIcon>
-            ) : (
-              <PlayIcon className='bx bx-play'></PlayIcon>
-            )}
-          </SmallPlayButton>
-        )}
-        <SpotifyButton onClick={() => window.open(song.external_urls.spotify)}>Open in Spotify</SpotifyButton>
-        <CreatePlaylistButton onClick={createPlaylist}>Create playlist</CreatePlaylistButton>
-      </SmallButtonsContainer>
       {smallLoad ? (
         <SmallLoad />
       ) : (
@@ -325,14 +188,7 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
     )
   }
   return (
-    <>
-      <NoSongContainer />
-      <SmallButtonsContainer>
-        <SmallPlayButton></SmallPlayButton>
-        <SpotifyButton></SpotifyButton>
-        <CreatePlaylistButton></CreatePlaylistButton>
-      </SmallButtonsContainer>
-    </>
+    <Container />
   )
 }
 

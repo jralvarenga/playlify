@@ -10,33 +10,28 @@ import { useAuth } from '../services/AuthProvider'
 const Container = styled.div`
   width: 100%;
   display: flex;
-  flex-flow: column;
-  height: 100vh;
-`
-const AppContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-flow: row;
-  height: 100%;
-`
-const SongsContainer = styled.div`
-  width: 80%;
-  height: 100%;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
   @media (max-width: 600px) {
-    width: 90%;
+    flex-direction: column-reverse;
   }
 `
-const MenuContainer = styled.div`
-  width: 20%;
-  height: 100%;
+const SongsContainer = styled.div`
+  width: 55%;
+  margin-top: 30px;
   display: flex;
-  border-right: 2px solid ${({ theme }: any) => theme.color.background.paper};
-  align-items: center;
   flex-direction: column;
-  justify-content: center;
+  height: 75vh;
   @media (max-width: 600px) {
-    width: 10%;
+    width: 100%;
+  }
+`
+const SelectedSongContainer = styled.div`
+  width: 45%;
+  margin-top: 30px;
+  @media (max-width: 600px) {
+    width: 100%;
+    margin-bottom: 0px;
   }
 `
 const SongsListContainer = styled.div`
@@ -49,55 +44,47 @@ const SongsListContainer = styled.div`
     width: 90%;
   }
 `
-const MenuItemActive = styled.div`
-  width: 100%;
-  height: 50px;
-  font-size: 18px;
+const FullListButton = styled.div`
+  width: 120px;
   cursor: pointer;
-  background-color: #58144d;
+  border: 2px solid #E93BCC;
+  background-color: #E93BCC;
   padding: 5px;
+  font-size: 14px;
   text-align: center;
-  border-top-right-radius: 100px;
-  border-bottom-right-radius: 100px;
+  border-radius: 100px;
   transition: 300ms;
-  display: flex;
-  align-items: center;
-`
-const MenuItem = styled.div`
-  width: 100%;
-  height: 50px;
-  font-size: 18px;
-  color: ${({ theme }: any) => theme.text.paper};
-  cursor: pointer;
-  padding: 5px;
-  border-top-right-radius: 100px;
-  border-bottom-right-radius: 100px;
-  transition: 300ms;
-  display: flex;
-  align-items: center;
+  margin-left: 10px;
   :hover {
-    background-color: ${({ theme }: any) => theme.color.background.light};
+    background: #f14bd6;
   }
   :active {
-    background-color: ${({ theme }: any) => theme.color.background.paper};
+    background: #d43fbc
   }
   @media (max-width: 600px) {
     width: 100px;
     font-size: 12px;
   }
 `
-const MenuText = styled.span`
+const LineListButton = styled.div`
+  width: 120px;
+  cursor: pointer;
+  border: 2px solid #E93BCC;
+  padding: 5px;
+  font-size: 14px;
+  margin-left: 10px;
   text-align: center;
-  font-size: 18px;
-  @media (max-width: 600px) {
-    display: none;
+  border-radius: 100px;
+  transition: 300ms;
+  :hover {
+    background: #f14bd6;
   }
-`
-const MenuIcon = styled.i`
-  margin-left: 15px;
-  margin-right: 15px;
+  :active {
+    background: #d43fbc
+  }
   @media (max-width: 600px) {
-    margin: auto;
+    width: 100px;
+    font-size: 12px;
   }
 `
 const IconButton = styled.i`
@@ -234,9 +221,6 @@ const Home = () => {
         setSongs(allPlaylists.top)
       break;
       case 'search':
-        setSearchSong(true)
-        setViewLibrary('search')
-        //setSongs(allPlaylists.top)
       break;
       default:
         setSearchSong(false)
@@ -279,58 +263,79 @@ const Home = () => {
   }
 
   return (
-    token ? (
-      loading ? (
-        <LoadingScreen />
-      ) : (
-        <Container>
-
-        <NavBar
-          profilePic={profilePic}
-          uri={profile.uri}
-        />
-        <AppContainer>
-          <MenuContainer>
-            {viewLibrary == "search" ? (
-              <MenuItemActive><MenuIcon className='bx bx-search' /><MenuText>Search</MenuText></MenuItemActive>
-            ) : (
-              <MenuItem onClick={() => changeSongs('search')}><MenuIcon className='bx bx-search' /><MenuText>Search</MenuText></MenuItem>
-            )}
-            {viewLibrary == "liked" ? (
-              <MenuItemActive><MenuIcon className='bx bxs-heart' /><MenuText>Liked Songs</MenuText></MenuItemActive>
-            ) : (
-              <MenuItem onClick={() => changeSongs('liked')}><MenuIcon className='bx bxs-heart' /><MenuText>Liked Songs</MenuText></MenuItem>
-            )}
-            {viewLibrary == "recent" ? (
-              <MenuItemActive><MenuIcon className='bx bx-time-five' /><MenuText>Recent Songs</MenuText></MenuItemActive>
-            ) : (
-              <MenuItem onClick={() => changeSongs('recent')}><MenuIcon className='bx bx-time-five' /><MenuText>Recent Songs</MenuText></MenuItem>
-            )}
-            {viewLibrary == "top" ? (
-              <MenuItemActive><MenuIcon className='bx bxs-star' /><MenuText>Top Songs</MenuText></MenuItemActive>
-            ) : (
-              <MenuItem onClick={() => changeSongs('top')}><MenuIcon className='bx bxs-star' /><MenuText>Top Songs</MenuText></MenuItem>
-            )}
-          </MenuContainer>
-          <SongsContainer>
-            <DisplaySongs
-              type={viewLibrary}
-              songs={songs}
-              playSongHandler={playSongHandler}
+    <div>
+      {token ? (
+        loading ? (
+          <LoadingScreen />
+        ) : (
+          <div>
+            <NavBar
+              profilePic={profilePic}
+              uri={profile.uri}
             />
-          </SongsContainer>
-        </AppContainer>
-        <SelectedSong
-          song={selectedSong}
-          changeSong={changeSong}
-          token={token}
-          refreshToken={refreshAccessToken}
-        />
-        </Container>
-      )
-    ) : (
-      <LoginScreen />
-    )
+            <Container>
+              <SongsContainer>
+                <SongsListContainer>
+                  {viewLibrary == "liked" ? (
+                    <FullListButton>Liked songs</FullListButton>
+                  ) : (
+                    <LineListButton onClick={() => changeSongs('liked')}>Liked songs</LineListButton>  
+                  )}
+                  {viewLibrary == "recent" ? (
+                    <FullListButton>Recent songs</FullListButton>
+                  ) : (
+                    <LineListButton onClick={() => changeSongs('recent')}>Recent songs</LineListButton>  
+                  )}
+                  {viewLibrary == "top" ? (
+                    <FullListButton>Top songs</FullListButton>
+                  ) : (
+                    <LineListButton onClick={() => changeSongs('top')}>Top songs</LineListButton>  
+                  )}
+                  {viewLibrary == "search" ? (
+                    <FullIconButton className='bx bx-search' />
+                  ) : (
+                    <IconButton className='bx bx-search' onClick={searchSongInputHandler} /> 
+                  )}
+                </SongsListContainer>
+                {searchSong ? (
+                  <SearchInput
+                    ref={searchInput}
+                    type="text"
+                    placeholder="Search a song"
+                    value={searchName}
+                    onBlur={searchSongHandler}
+                    onChange={(e: any) => setSearchName(e.target.value)}
+                    onKeyDown={handleEnterKey}
+                  />
+                ) : (
+                  <></>
+                )}
+                <DisplaySongs
+                  type={viewLibrary}
+                  songs={songs}
+                  playSongHandler={playSongHandler}
+                />
+              </SongsContainer>
+              <SelectedSongContainer>
+              </SelectedSongContainer>
+            </Container>
+            {smallLoad ? (
+              <SmallLoad />
+            ) : (
+              <></>
+            )}
+            <SelectedSong
+              song={selectedSong}
+              changeSong={changeSong}
+              token={token}
+              refreshToken={refreshAccessToken}
+            />
+          </div>
+        )
+      ) : (
+        <LoginScreen />
+      )}
+    </div>
   )
 }
 

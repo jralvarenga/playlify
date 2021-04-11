@@ -39,10 +39,16 @@ const PlayIcon = styled.i`
   :active {
   background-color: #272727;
   }
+  @media (max-width: 600px) {
+    font-size: 25px;
+  }
 `
 const SongInfoContainer = styled.div`
   width: 200px;
   margin-left: 20px;
+  @media (max-width: 600px) {
+    margin-left: 10px;
+  }
 `
 const SongName = styled.span`
   font-size: 20px;
@@ -89,6 +95,9 @@ const SpotifyButton = styled.i`
   :active {
   background-color: #19a34a;
   }
+  @media (max-width: 600px) {
+    font-size: 25px;
+  }
 `
 const CreatePlaylistButton = styled.div`
   padding: 10px;
@@ -102,6 +111,9 @@ const CreatePlaylistButton = styled.div`
   }
   :active {
     background: linear-gradient(45deg ,#d43fbc, #49ccc8);
+  }
+  @media (max-width: 600px) {
+    font-size: 25px;
   }
 `
 

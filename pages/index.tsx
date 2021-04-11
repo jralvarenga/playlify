@@ -39,16 +39,6 @@ const MenuContainer = styled.div`
     width: 10%;
   }
 `
-const SongsListContainer = styled.div`
-  width: 100%;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  @media (max-width: 600px) {
-    width: 90%;
-  }
-`
 const MenuItemActive = styled.div`
   width: 100%;
   height: 50px;

@@ -69,6 +69,11 @@ const SongArtists = styled.span`
   font-size: 14px;
   color: #919090;
   font-weight: bold;
+  @media (max-width: 600px) {
+    font-size: 12px;
+    font-weight: normal;
+    text-align: left;
+  }
 `
 const ButtonsContainer = styled.div`
   width: 200px;
@@ -115,6 +120,18 @@ const CreatePlaylistButton = styled.div`
   @media (max-width: 600px) {
     font-size: 25px;
   }
+`
+const NoSongContainer = styled.div`
+  width: 70px;
+  height: 70px;
+  margin-left: 15px;
+  border-radius: 10px;
+`
+const NoSongIcon = styled.span`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: ${({ theme }: any) => theme.color.background.light};
 `
 
 const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
@@ -200,7 +217,14 @@ const SelectedSong = ({ song, changeSong, token, refreshToken }: any) => {
     )
   }
   return (
-    <Container />
+    <Container>
+      <NoSongContainer />
+      <ButtonsContainer>
+        <NoSongIcon />
+        <NoSongIcon />
+        <NoSongIcon />
+      </ButtonsContainer>
+    </Container>
   )
 }
 

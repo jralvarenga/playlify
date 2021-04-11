@@ -24,7 +24,7 @@ const SongsContainer = styled.div`
   height: 100%;
   flex-direction: column;
   @media (max-width: 600px) {
-    width: 90%;
+    width: 85%;
   }
 `
 const MenuContainer = styled.div`
@@ -36,13 +36,13 @@ const MenuContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   @media (max-width: 600px) {
-    width: 10%;
+    width: 15%;
   }
 `
 const MenuItemActive = styled.div`
   width: 100%;
   height: 50px;
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
   background-color: #58144d;
   padding: 5px;
@@ -72,8 +72,8 @@ const MenuItem = styled.div`
     background-color: ${({ theme }: any) => theme.color.background.paper};
   }
   @media (max-width: 600px) {
-    width: 100px;
-    font-size: 12px;
+    width: 100%;
+    font-size: 16px;
   }
 `
 const MenuText = styled.span`

@@ -4,8 +4,9 @@ import { useAuth } from '../services/AuthProvider'
 
 const NavBarContainer = styled.div`
   width: 100%;
-  height: 80px;
+  height: 70px;
   display: flex;
+  margin-top: 10px;
   align-items: center;
   @media (max-width: 600px) {
     height: 70px;
@@ -21,8 +22,8 @@ const LogoBox = styled.div`
   }
 `
 const ImageLogo = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   @media (max-width: 600px) {
     width: 45px;
     height: 45px;
@@ -47,8 +48,8 @@ const UserProfileContainer = styled.div`
   }
 `
 const UserProfilePic = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   margin-left: 15px;
   cursor: pointer;
@@ -70,7 +71,7 @@ const SignOutButton = styled.div`
   width: 120px;
   cursor: pointer;
   background: linear-gradient(45deg ,#E93BCC, #3BE9E3);
-  padding: 5px;
+  padding: 4px;
   font-size: 15px;
   text-align: center;
   border-radius: 100px;
@@ -105,8 +106,8 @@ const NavBar = ({ profilePic, uri }: any) => {
   return (
     <NavBarContainer>
       <LogoBox onClick={redirect}>
-        <ImageLogo src="/img/logo.png" alt="Discoverify logo" />
-        <Logotext>Discoverify</Logotext>
+        <ImageLogo src="/img/logo.png" alt="Playlify logo" />
+        <Logotext>Playlify</Logotext>
       </LogoBox>
       <UserProfileContainer>
         <SignOutButton onClick={logOut}>Log out</SignOutButton>

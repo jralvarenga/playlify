@@ -10,112 +10,96 @@ import { useAuth } from '../services/AuthProvider'
 const Container = styled.div`
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  @media (max-width: 600px) {
-    flex-direction: column-reverse;
-  }
+  flex-flow: column;
+  height: 100vh;
+  overflow-y: hidden;
+`
+const AppContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  height: 100%;
 `
 const SongsContainer = styled.div`
-  width: 55%;
-  margin-top: 30px;
-  display: flex;
+  width: 80%;
+  height: 100%;
   flex-direction: column;
-  height: 75vh;
   @media (max-width: 600px) {
-    width: 100%;
+    width: 85%;
   }
 `
-const SelectedSongContainer = styled.div`
-  width: 45%;
-  margin-top: 30px;
+const MenuContainer = styled.div`
+  width: 20%;
+  height: 100%;
+  display: flex;
+  border-right: 2px solid ${({ theme }: any) => theme.color.background.paper};
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
   @media (max-width: 600px) {
-    width: 100%;
-    margin-bottom: 0px;
+    width: 15%;
   }
 `
-const SongsListContainer = styled.div`
+const MenuItemActive = styled.div`
   width: 100%;
-  height: 60px;
+  height: 50px;
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #58144d;
+  padding: 5px;
+  text-align: center;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
+  transition: 300ms;
   display: flex;
   align-items: center;
-  flex-direction: row;
-  @media (max-width: 600px) {
-    width: 90%;
-  }
 `
-const FullListButton = styled.div`
-  width: 120px;
-  cursor: pointer;
-  border: 2px solid #E93BCC;
-  background-color: #E93BCC;
-  padding: 5px;
-  font-size: 14px;
-  text-align: center;
-  border-radius: 100px;
-  transition: 300ms;
-  margin-left: 10px;
-  :hover {
-    background: #f14bd6;
-  }
-  :active {
-    background: #d43fbc
-  }
-  @media (max-width: 600px) {
-    width: 100px;
-    font-size: 12px;
-  }
-`
-const LineListButton = styled.div`
-  width: 120px;
-  cursor: pointer;
-  border: 2px solid #E93BCC;
-  padding: 5px;
-  font-size: 14px;
-  margin-left: 10px;
-  text-align: center;
-  border-radius: 100px;
-  transition: 300ms;
-  :hover {
-    background: #f14bd6;
-  }
-  :active {
-    background: #d43fbc
-  }
-  @media (max-width: 600px) {
-    width: 100px;
-    font-size: 12px;
-  }
-`
-const IconButton = styled.i`
-  padding: 12px;
-  border-radius: 50%;
-  background-color: ${({ theme }: any) => theme.color.background.paper};
+const MenuItem = styled.div`
+  width: 100%;
+  height: 50px;
   font-size: 18px;
+  color: ${({ theme }: any) => theme.text.paper};
   cursor: pointer;
-  margin-left: 10px;
+  padding: 5px;
+  border-top-right-radius: 100px;
+  border-bottom-right-radius: 100px;
   transition: 300ms;
+  display: flex;
+  align-items: center;
   :hover {
     background-color: ${({ theme }: any) => theme.color.background.light};
   }
-`
-const FullIconButton = styled.i`
-  padding: 12px;
-  border-radius: 50%;
-  background-color: ${({ theme }: any) => theme.color.primary.main};
-  font-size: 18px;
-  cursor: pointer;
-  margin-left: 10px;
-  transition: 300ms;
-  :hover {
-    background-color: ${({ theme }: any) => theme.color.primary.light};
+  :active {
+    background-color: ${({ theme }: any) => theme.color.background.paper};
+  }
+  @media (max-width: 600px) {
+    width: 100%;
+    font-size: 16px;
   }
 `
+const MenuText = styled.span`
+  text-align: center;
+  font-size: 18px;
+  @media (max-width: 600px) {
+    display: none;
+  }
+`
+const MenuIcon = styled.i`
+  margin-left: 15px;
+  margin-right: 15px;
+  @media (max-width: 600px) {
+    margin: auto;
+  }
+`
+const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+`
 const SearchInput = styled.input`
-  width: 70%;
+  width: 350px;
   padding: 7px;
   margin-left: 3%;
-  margin-top: 15px;
   border: 0px;
   border-radius: 15px;
   font-family: 'poppins';
@@ -124,6 +108,23 @@ const SearchInput = styled.input`
   font-size: 22px;
   font-weight: bold;
   box-shadow: 2px 2px 2px 2px #141414;
+`
+const SearchIcon = styled.i`
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 28px;
+  background-color: ${({ theme }: any) => theme.color.background.light};
+  margin-left: 5px;
+  :hover {
+  background-color: #363636;
+  }
+  :active {
+  background-color: #272727;
+  }
+  @media (max-width: 600px) {
+    font-size: 25px;
+  }
 `
 
 const Home = () => {
@@ -221,6 +222,12 @@ const Home = () => {
         setSongs(allPlaylists.top)
       break;
       case 'search':
+        setViewLibrary('search')
+        setSongs(null)
+        setSearchSong(true)
+        setTimeout(() => {
+          searchInput.current.focus()
+        }, 100)
       break;
       default:
         setSearchSong(false)
@@ -228,15 +235,6 @@ const Home = () => {
         setViewLibrary('liked')
       break;
     }
-  }
-
-  const searchSongInputHandler = () => {
-    setViewLibrary('search')
-    setSongs(null)
-    setSearchSong(true)
-    setTimeout(() => {
-      searchInput.current.focus()
-    }, 100)
   }
 
   const playSongHandler = (song: any) => {
@@ -263,79 +261,79 @@ const Home = () => {
   }
 
   return (
-    <div>
-      {token ? (
-        loading ? (
-          <LoadingScreen />
-        ) : (
-          <div>
-            <NavBar
-              profilePic={profilePic}
-              uri={profile.uri}
-            />
-            <Container>
-              <SongsContainer>
-                <SongsListContainer>
-                  {viewLibrary == "liked" ? (
-                    <FullListButton>Liked songs</FullListButton>
-                  ) : (
-                    <LineListButton onClick={() => changeSongs('liked')}>Liked songs</LineListButton>  
-                  )}
-                  {viewLibrary == "recent" ? (
-                    <FullListButton>Recent songs</FullListButton>
-                  ) : (
-                    <LineListButton onClick={() => changeSongs('recent')}>Recent songs</LineListButton>  
-                  )}
-                  {viewLibrary == "top" ? (
-                    <FullListButton>Top songs</FullListButton>
-                  ) : (
-                    <LineListButton onClick={() => changeSongs('top')}>Top songs</LineListButton>  
-                  )}
-                  {viewLibrary == "search" ? (
-                    <FullIconButton className='bx bx-search' />
-                  ) : (
-                    <IconButton className='bx bx-search' onClick={searchSongInputHandler} /> 
-                  )}
-                </SongsListContainer>
-                {searchSong ? (
-                  <SearchInput
-                    ref={searchInput}
-                    type="text"
-                    placeholder="Search a song"
-                    value={searchName}
-                    onBlur={searchSongHandler}
-                    onChange={(e: any) => setSearchName(e.target.value)}
-                    onKeyDown={handleEnterKey}
-                  />
-                ) : (
-                  <></>
-                )}
-                <DisplaySongs
-                  type={viewLibrary}
-                  songs={songs}
-                  playSongHandler={playSongHandler}
+    token ? (
+      loading ? (
+        <LoadingScreen />
+      ) : (
+        <Container>
+
+        <NavBar
+          profilePic={profilePic}
+          uri={profile.uri}
+        />
+        <AppContainer>
+          <MenuContainer>
+            {viewLibrary == "search" ? (
+              <MenuItemActive><MenuIcon className='bx bx-search' /><MenuText>Search</MenuText></MenuItemActive>
+            ) : (
+              <MenuItem onClick={() => changeSongs('search')}><MenuIcon className='bx bx-search' /><MenuText>Search</MenuText></MenuItem>
+            )}
+            {viewLibrary == "liked" ? (
+              <MenuItemActive><MenuIcon className='bx bxs-heart' /><MenuText>Liked Songs</MenuText></MenuItemActive>
+            ) : (
+              <MenuItem onClick={() => changeSongs('liked')}><MenuIcon className='bx bxs-heart' /><MenuText>Liked Songs</MenuText></MenuItem>
+            )}
+            {viewLibrary == "recent" ? (
+              <MenuItemActive><MenuIcon className='bx bx-time-five' /><MenuText>Recent Songs</MenuText></MenuItemActive>
+            ) : (
+              <MenuItem onClick={() => changeSongs('recent')}><MenuIcon className='bx bx-time-five' /><MenuText>Recent Songs</MenuText></MenuItem>
+            )}
+            {viewLibrary == "top" ? (
+              <MenuItemActive><MenuIcon className='bx bxs-star' /><MenuText>Top Songs</MenuText></MenuItemActive>
+            ) : (
+              <MenuItem onClick={() => changeSongs('top')}><MenuIcon className='bx bxs-star' /><MenuText>Top Songs</MenuText></MenuItem>
+            )}
+          </MenuContainer>
+          <SongsContainer>
+            {searchSong ? (
+              <SearchContainer>
+                <SearchInput
+                  ref={searchInput}
+                  type="text"
+                  placeholder="Search a song"
+                  value={searchName}
+                  onBlur={searchSongHandler}
+                  onChange={(e: any) => setSearchName(e.target.value)}
+                  onKeyDown={handleEnterKey}
                 />
-              </SongsContainer>
-              <SelectedSongContainer>
-                <SelectedSong
-                  song={selectedSong}
-                  changeSong={changeSong}
-                  token={token}
-                  refreshToken={refreshAccessToken}
-                />
-              </SelectedSongContainer>
-            </Container>
-            {smallLoad ? (
-              <SmallLoad />
+                <SearchIcon onClick={searchSongHandler} className='bx bx-search' />
+              </SearchContainer>
             ) : (
               <></>
             )}
-          </div>
-        )
-      ) : (
-        <LoginScreen />
-      )}
-    </div>
+            <DisplaySongs
+              type={viewLibrary}
+              songs={songs}
+              playSongHandler={playSongHandler}
+            />
+          </SongsContainer>
+        </AppContainer>
+        <SelectedSong
+          song={selectedSong}
+          changeSong={changeSong}
+          token={token}
+          refreshToken={refreshAccessToken}
+        />
+        {smallLoad ? (
+          <SmallLoad />
+        ) : (
+          <></>
+        )}
+        </Container>
+      )
+    ) : (
+      <LoginScreen />
+    )
   )
 }
 

@@ -2,18 +2,11 @@ import styled from "styled-components"
 import { artistHelper } from "../hooks/songHooks"
 
 const Container = styled.div`
-  width: 90%;
+  width: 100%;
   margin: auto;
   height: 100%;
-  padding: 15px;
-  margin-top: 20px;
-  margin-bottom: 20px;
   border-radius: 10px;
-  background-color: ${({ theme }: any) => theme.color.background.paper};
   overflow-y: scroll;
-  @media (max-width: 600px) {
-    width: 80%;
-  }
 `
 const SongContainer = styled.div`
   width: 100%;
@@ -22,7 +15,6 @@ const SongContainer = styled.div`
   align-items: center;
   border-top: 1px solid #3b3b3b;
   border-bottom: 1px solid #3b3b3b;
-  border-radius: 10px;
   transition: 200ms;
   cursor: pointer;
   animation: entersongs 300ms ease-in;
@@ -33,9 +25,11 @@ const SongContainer = styled.div`
     border-bottom: 0px;
   }
   :hover {
+    border-radius: 10px;
     background-color: #353535;
   }
   :active {
+    border-radius: 10px;
     background-color: #1b1b1b;
   }
   @keyframes entersongs {
@@ -46,6 +40,9 @@ const SongContainer = styled.div`
       opacity: 1;
     }
   }
+`
+const PlaylistName = styled.h1`
+  margin-left: 3%;
 `
 const AlbumImageContainer = styled.img`
   width: 60px;
@@ -97,8 +94,11 @@ const DisplaySongs = ({ songs, type, playSongHandler, deleteFromPlaylist }: any)
     return (<Container />)
   }
 
+  const title = type == 'liked' ? 'Liked Songs' : type == 'top' ? 'Top Songs' : type == 'recent' ? 'Recent Songs' : ''
+
   return (
     <Container>
+      <PlaylistName>{title}</PlaylistName>
       {type == 'top' || type == 'search'|| type == 'playlist' ? (
         songs.map((song: any, i: number) => {
           const track = song  

@@ -50,6 +50,6 @@ yarn start
 
 ## Deploy
 
-This app is available in [https://discoverify.vercel.app]
+This app is available in [https://playlify.vercel.app]
 
 To deploy on Vercel or any hosting with SSR capability just add the env variables on the server

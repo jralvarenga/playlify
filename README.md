@@ -1,4 +1,4 @@
-# Discoverify
+# Playlify
 
 Create new playlists and discover new music from just one song
 
